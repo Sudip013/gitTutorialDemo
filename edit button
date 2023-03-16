@@ -1,0 +1,27 @@
+<ul id="userList"></ul>
+
+<script>
+  // Retrieve users from local storage and display them in the UI
+  const users = JSON.parse(localStorage.getItem('users')) || [];
+  const userList = document.getElementById('userList');
+  for (let i = 0; i < users.length; i++) {
+    const user = users[i];
+    const li = document.createElement('li');
+    li.textContent = user.name + ' (' + user.email + ')';
+    const editButton = document.createElement('button');
+    editButton.textContent = 'Edit';
+    editButton.addEventListener('click', function() {
+      // Show a prompt to edit the email address
+      const newEmail = prompt('Enter the new email address:', user.email);
+      if (newEmail) {
+        // Update the user's email and save to local storage
+        user.email = newEmail;
+        localStorage.setItem('users', JSON.stringify(users));
+        // Update the user entry in the UI
+        li.textContent = user.name + ' (' + user.email + ')';
+      }
+    });
+    li.appendChild(editButton);
+    userList.appendChild(li);
+  }
+</script>
