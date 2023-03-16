@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Item List</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<style>
+		input {
+			display: block;
+			margin-bottom: 10px;
+		}
+	</style>
+</head>
+<body>
+	<input type="text" id="searchInput" placeholder="Search...">
+	<ul id="itemList"></ul>
+	<script>
+		// Sample data for the item list
+		const itemList = [
+			{ name: 'Apple', description: 'A round fruit that is usually red, yellow, or green.' },
+			{ name: 'Banana', description: 'A long, curved fruit with yellow skin and soft sweet flesh.' },
+			{ name: 'Orange', description: 'A round fruit with thick, bright orange skin and sweet juicy flesh.' },
+			{ name: 'Pear', description: 'A sweet, juicy fruit with a yellowish-green or brownish-green skin.' },
+			{ name: 'Pineapple', description: 'A tropical fruit with a tough, spiky exterior and sweet juicy flesh inside.' }
+		];
+
+		// Display all items initially
+		displayItems(itemList);
+
+		// Listen for input changes in the search box
+		document.getElementById('searchInput').addEventListener('input', function() {
+			const searchQuery = this.value.toLowerCase();
+
+			// Filter the items that match the search query
+			const filteredItems = itemList.filter(function(item) {
+				const nameMatch = item.name.toLowerCase().includes(searchQuery);
+				const descriptionMatch = item.description.toLowerCase().includes(searchQuery);
+				return nameMatch || descriptionMatch;
+			});
+
+			// Display the filtered items
+			displayItems(filteredItems);
+		});
+
+		function displayItems(items) {
+			const itemListElement = document.getElementById('itemList');
+
+			// Clear the item list before displaying new items
+			itemListElement.innerHTML = '';
+
+			// Create and append a list item element for each item
+			items.forEach(function(item) {
+				const listItemElement = document.createElement('li');
+				const itemTitleElement = document.createElement('h3');
+				itemTitleElement.textContent = item.name;
+				const itemDescriptionElement = document.createElement('p');
+				itemDescriptionElement.textContent = item.description;
+				listItemElement.appendChild(itemTitleElement);
+				listItemElement.appendChild(itemDescriptionElement);
+				itemListElement.appendChild(listItemElement);
+			});
+		}
+	</script>
+</body>
+</html>
