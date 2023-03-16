@@ -1,0 +1,23 @@
+<ul id="userList"></ul>
+
+<script>
+  // Retrieve users from local storage and display them in the UI
+  const users = JSON.parse(localStorage.getItem('users')) || [];
+  const userList = document.getElementById('userList');
+  for (let i = 0; i < users.length; i++) {
+    const user = users[i];
+    const li = document.createElement('li');
+    li.textContent = user.name + ' (' + user.email + ')';
+    const deleteButton = document.createElement('button');
+    deleteButton.textContent = 'Delete';
+    deleteButton.addEventListener('click', function() {
+      // Remove the user from the array and update local storage
+      users.splice(i, 1);
+      localStorage.setItem('users', JSON.stringify(users));
+      // Remove the user entry from the UI
+      li.remove();
+    });
+    li.appendChild(deleteButton);
+    userList.appendChild(li);
+  }
+</script>
