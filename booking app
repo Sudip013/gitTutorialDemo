@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Booking Appointment App</title>
+  <style>
+    .user {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .user span {
+      margin-right: 10px;
+    }
+    .delete-icon {
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div id="userList"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+document.addEventListener('DOMContentLoaded', getUserDetails);
+
+function getUserDetails() {
+  fetch('https://crudcrud.com/api/your-api-endpoint') // Replace 'your-api-endpoint' with your actual endpoint
+    .then(response => response.json())
+    .then(data => displayUserDetails(data))
+    .catch(error => console.log(error));
+}
+
+function displayUserDetails(users) {
+  const userList = document.getElementById('userList');
+
+  users.forEach(user => {
+    const userElement = document.createElement('div');
+    userElement.className = 'user';
+    userElement.innerHTML = `<span>${user.name}</span>
+                             <span>${user.email}</span>
+                             <span class="delete-icon" data-id="${user._id}">&#10006;</span>`;
+
+    userList.appendChild(userElement);
+  });
+
+  addDeleteEventListeners();
+}
+
+function addDeleteEventListeners() {
+  const deleteIcons = document.getElementsByClassName('delete-icon');
+
+  Array.from(deleteIcons).forEach(icon => {
+    icon.addEventListener('click', deleteUser);
+  });
+}
+
+function deleteUser(event) {
+  const userId = event.target.dataset.id;
+  const userElement = event.target.parentElement;
+
+  fetch(`https://crudcrud.com/api/your-api-endpoint/${userId}`, {
+    method: 'DELETE' // Sends a DELETE request to the API endpoint with the user's ID
+  })
+    .then(response => {
+      if (response.ok) {
+        userElement.remove(); // Remove the user's details from the website on successful deletion
+      }
+    })
+    .catch(error => console.log(error));
+}
