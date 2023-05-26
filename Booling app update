@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Booking Appointment App</title>
+  <style>
+    /* CSS for edit icon */
+    .edit-icon {
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <!-- User details section -->
+  <h2>User Details</h2>
+  <div id="user-details">
+    <p><strong>Name:</strong> John Doe</p>
+    <p><strong>Email:</strong> johndoe@example.com</p>
+    <p><strong>Age:</strong> 30</p>
+    <p class="edit-icon">&#9998;</p>
+  </div>
+
+  <!-- Registration form section -->
+  <h2>Registration Form</h2>
+  <form id="registration-form">
+    <label for="name">Name:</label>
+    <input type="text" id="name" required><br><br>
+    <label for="email">Email:</label>
+    <input type="email" id="email" required><br><br>
+    <label for="age">Age:</label>
+    <input type="number" id="age" required><br><br>
+    <input type="submit" value="Submit">
+  </form>
+
+  <script>
+    // JavaScript to handle the edit functionality
+    const editIcon = document.querySelector('.edit-icon');
+    const nameInput = document.getElementById('name');
+    const emailInput = document.getElementById('email');
+    const ageInput = document.getElementById('age');
+
+    // Populate form with user details on edit icon click
+    editIcon.addEventListener('click', () => {
+      const userDetails = document.getElementById('user-details');
+      const name = userDetails.querySelector('p:nth-of-type(1)').innerText.split(': ')[1];
+      const email = userDetails.querySelector('p:nth-of-type(2)').innerText.split(': ')[1];
+      const age = userDetails.querySelector('p:nth-of-type(3)').innerText.split(': ')[1];
+
+      nameInput.value = name;
+      emailInput.value = email;
+      ageInput.value = age;
+    });
+
+    // Handle form submission
+    document.getElementById('registration-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const updatedName = nameInput.value;
+      const updatedEmail = emailInput.value;
+      const updatedAge = ageInput.value;
+
+      // Update user details in the DOM
+      const userDetails = document.getElementById('user-details');
+      userDetails.querySelector('p:nth-of-type(1)').innerText = `Name: ${updatedName}`;
+      userDetails.querySelector('p:nth-of-type(2)').innerText = `Email: ${updatedEmail}`;
+      userDetails.querySelector('p:nth-of-type(3)').innerText = `Age: ${updatedAge}`;
+
+      // Clear form inputs
+      nameInput.value = '';
+      emailInput.value = '';
+      ageInput.value = '';
+    });
+  </script>
+</body>
+</html>
