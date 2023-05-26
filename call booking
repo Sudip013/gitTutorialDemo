@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Booking Appointment App</title>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+  <h1>Booking Appointment App</h1>
+  <div id="booking-form">
+    <label for="name">Name:</label>
+    <input type="text" id="name" placeholder="Enter your name">
+
+    <label for="date">Date:</label>
+    <input type="date" id="date">
+
+    <label for="time">Time:</label>
+    <input type="time" id="time">
+
+    <button onclick="bookAppointment()">Book Appointment</button>
+  </div>
+
+  <div id="booking-status"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+}
+
+h1 {
+  text-align: center;
+}
+
+#booking-form {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-top: 10px;
+}
+
+input {
+  width: 100%;
+  padding: 5px;
+  margin-top: 5px;
+}
+
+button {
+  margin-top: 10px;
+}
+
+#booking-status {
+  font-weight: bold;
+  text-align: center;
+}
+function bookAppointment() {
+  const nameInput = document.getElementById('name');
+  const dateInput = document.getElementById('date');
+  const timeInput = document.getElementById('time');
+  const statusDiv = document.getElementById('booking-status');
+
+  const name = nameInput.value;
+  const date = dateInput.value;
+  const time = timeInput.value;
+  statusDiv.textContent = `Appointment booked for ${name} on ${date} at ${time}.`;
+}
