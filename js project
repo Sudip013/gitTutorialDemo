@@ -1,0 +1,93 @@
+//Front end
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Restaurant Order Taking</title>
+  <style>
+    .table {
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Restaurant Order Taking</h1>
+
+  <div class="table">
+    <h2>Table 1</h2>
+    <button onclick="placeOrder(1)">Place Order</button>
+    <ul id="orderList1"></ul>
+  </div>
+
+  <div class="table">
+    <h2>Table 2</h2>
+    <button onclick="placeOrder(2)">Place Order</button>
+    <ul id="orderList2"></ul>
+  </div>
+
+  <div class="table">
+    <h2>Table 3</h2>
+    <button onclick="placeOrder(3)">Place Order</button>
+    <ul id="orderList3"></ul>
+  </div>
+
+  <script>
+    function placeOrder(tableNumber) {
+      const orderItem = prompt('Enter order item:');
+      if (orderItem) {
+        const orderList = document.getElementById(`orderList${tableNumber}`);
+        const listItem = document.createElement('li');
+        listItem.innerText = orderItem;
+        orderList.appendChild(listItem);
+      }
+    }
+  </script>
+</body>
+</html>
+
+
+//Backend
+
+
+const express = require('express');
+const app = express();
+
+app.use(express.json());
+
+const tables = {
+  1: [],
+  2: [],
+  3: []
+};
+
+app.post('/place-order', (req, res) => {
+  const { tableNumber, orderItem } = req.body;
+
+  if (!tableNumber || !orderItem) {
+    return res.status(400).json({ error: 'Invalid request' });
+  }
+
+  if (!tables.hasOwnProperty(tableNumber)) {
+    return res.status(404).json({ error: 'Table not found' });
+  }
+
+  tables[tableNumber].push(orderItem);
+  res.sendStatus(200);
+});
+
+app.get('/get-orders/:tableNumber', (req, res) => {
+  const tableNumber = req.params.tableNumber;
+
+  if (!tables.hasOwnProperty(tableNumber)) {
+    return res.status(404).json({ error: 'Table not found' });
+  }
+
+  const orders = tables[tableNumber];
+  res.json({ orders });
+});
+
+app.listen(3000, () => {
+  console.log('Server started on port 3000');
+});
